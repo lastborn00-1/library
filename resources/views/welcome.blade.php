@@ -1,7 +1,7 @@
 @extends('layouts.public')
 
 @section('content')
-<div class="relative bg-slate-900 overflow-hidden min-h-[80vh] flex items-center justify-center" 
+<div class="relative bg-slate-900 overflow-hidden min-h-[88vh] md:min-h-[90vh] flex items-center justify-center" 
      style="z-index: 1; isolation: auto;"
      x-data="{
         active: 0,
@@ -22,27 +22,27 @@
     <template x-for="(img, idx) in images" :key="idx">
         <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
              :style="'background-image: url(' + img + '); z-index: 0;'"
-             :class="active === idx ? 'opacity-40 scale-100' : 'opacity-0 scale-105 pointer-events-none'"></div>
+             :class="active === idx ? 'opacity-65 scale-100' : 'opacity-0 scale-105 pointer-events-none'"></div>
     </template>
     
-    <!-- Dark Gradient Overlay for optimal contrast -->
-    <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-slate-900/70" style="z-index: 1;"></div>
+    <!-- Dark Gradient Overlay for text contrast -->
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/30 to-slate-900/80" style="z-index: 1;"></div>
     
     <!-- Content Container -->
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center z-10">
-        <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 drop-shadow-lg">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 md:py-40 text-center z-10">
+        <h1 class="text-4xl sm:text-6xl md:text-7xl font-black text-white tracking-tight mb-6 drop-shadow-2xl">
             Explore Our Library
         </h1>
-        <p class="mt-4 text-xl md:text-2xl text-slate-100 font-medium max-w-3xl mx-auto drop-shadow-md leading-relaxed">
+        <p class="mt-6 text-xl sm:text-2xl md:text-3xl text-white font-medium max-w-4xl mx-auto drop-shadow-lg leading-relaxed">
             Welcome to the Kwara State College of Health Technology Library. Discover academic resources, research materials, and our extensive catalog.
         </p>
 
         <!-- Slide Indicators -->
-        <div class="mt-10 flex justify-center items-center space-x-3">
+        <div class="mt-14 flex justify-center items-center space-x-3">
             <template x-for="(img, idx) in images" :key="'dot-' + idx">
                 <button @click="active = idx" 
-                        class="h-3 rounded-full transition-all duration-300 focus:outline-none"
-                        :class="active === idx ? 'w-8 bg-emerald-500' : 'w-3 bg-white/50 hover:bg-white/80'"
+                        class="h-3 rounded-full transition-all duration-300 focus:outline-none shadow-md"
+                        :class="active === idx ? 'w-10 bg-emerald-500' : 'w-3 bg-white/60 hover:bg-white'"
                         :aria-label="'Go to slide ' + (idx + 1)"></button>
             </template>
         </div>
