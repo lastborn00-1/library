@@ -22,38 +22,40 @@
     <template x-for="(img, idx) in images" :key="idx">
         <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
              :style="'background-image: url(' + img + '); z-index: 0;'"
-             :class="active === idx ? 'opacity-90 scale-100' : 'opacity-0 scale-105 pointer-events-none'"></div>
+             :class="active === idx ? 'opacity-85 scale-100' : 'opacity-0 scale-105 pointer-events-none'"></div>
     </template>
     
-    <!-- Dark Overlay with Gradient for Maximum Visibility -->
-    <div class="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/50 to-slate-950/90" style="z-index: 1;"></div>
+    <!-- Heavy Contrast Overlay for 100% Text Readability -->
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-950/85 via-slate-950/65 to-slate-950/95" style="z-index: 1;"></div>
     
     <!-- Content Container -->
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 md:py-48 text-center z-10">
         
         <!-- Welcome Badge -->
-        <div class="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-emerald-600/30 backdrop-blur-md border border-emerald-400/50 text-emerald-300 text-sm md:text-lg font-bold tracking-widest uppercase mb-8 shadow-2xl">
-            <span class="w-3 h-3 rounded-full bg-emerald-400 animate-pulse"></span>
+        <div class="inline-flex items-center gap-3 px-6 py-2.5 rounded-full bg-emerald-600/40 backdrop-blur-md border border-emerald-400/60 text-emerald-200 text-sm md:text-lg font-extrabold tracking-widest uppercase mb-8 shadow-2xl">
+            <span class="w-3.5 h-3.5 rounded-full bg-emerald-400 animate-pulse"></span>
             Kwara State College of Health Technology
         </div>
 
         <!-- Hero Headline -->
-        <h1 class="text-6xl sm:text-8xl md:text-9xl lg:text-[10rem] font-black text-white uppercase tracking-tight mb-8 drop-shadow-[0_15px_35px_rgba(0,0,0,0.95)] leading-none">
+        <h1 class="text-6xl sm:text-8xl md:text-9xl lg:text-[12rem] xl:text-[14rem] font-black text-white uppercase tracking-tight mb-8 leading-none"
+            style="text-shadow: 0 10px 40px rgba(0,0,0,0.95), 0 2px 10px rgba(0,0,0,0.9);">
             Explore Our Library
         </h1>
 
         <!-- Hero Subtitle -->
-        <p class="mt-6 text-2xl sm:text-4xl md:text-5xl text-slate-100 font-bold max-w-6xl mx-auto drop-shadow-[0_8px_20px_rgba(0,0,0,0.95)] leading-relaxed">
+        <p class="mt-6 text-2xl sm:text-4xl md:text-5xl text-slate-100 font-bold max-w-6xl mx-auto leading-relaxed"
+           style="text-shadow: 0 6px 25px rgba(0,0,0,0.95), 0 2px 8px rgba(0,0,0,0.9);">
             Welcome to the Kwara State College of Health Technology Library. Discover academic resources, research materials, and our extensive catalog.
         </p>
 
         <!-- CTA Buttons -->
         <div class="mt-12 flex flex-wrap justify-center items-center gap-5">
-            <a href="{{ url('/e-resources') }}" class="px-8 py-4 bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-lg md:text-xl rounded-2xl shadow-2xl hover:scale-105 transition transform flex items-center gap-3">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+            <a href="{{ url('/e-resources') }}" class="px-9 py-4.5 bg-emerald-600 hover:bg-emerald-500 text-white font-black text-lg md:text-2xl rounded-2xl shadow-2xl hover:scale-105 transition transform flex items-center gap-3">
+                <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
                 Explore E-Resources
             </a>
-            <a href="{{ route('repository.home') }}" class="px-8 py-4 bg-white/20 hover:bg-white/30 backdrop-blur-md border border-white/40 text-white font-extrabold text-lg md:text-xl rounded-2xl shadow-2xl hover:scale-105 transition transform flex items-center gap-3">
+            <a href="{{ route('repository.home') }}" class="px-9 py-4.5 bg-slate-900/80 hover:bg-slate-900 backdrop-blur-md border border-white/30 text-white font-black text-lg md:text-2xl rounded-2xl shadow-2xl hover:scale-105 transition transform flex items-center gap-3">
                 Institutional Repository &rarr;
             </a>
         </div>
