@@ -65,19 +65,21 @@
     <!-- Content Container -->
     <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 md:py-32 text-center z-10">
         
-        <!-- Welcome Badge (Exact match to screenshot) -->
-        <div class="hero-drop-1 inline-flex items-center gap-3 px-6 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/80 text-white text-xs sm:text-sm md:text-base font-bold tracking-wider uppercase mb-6 shadow-md">
-            <span class="w-3 h-3 rounded-full bg-white"></span>
+        <!-- Welcome Badge -->
+        <div class="hero-drop-1 inline-flex items-center gap-3.5 px-7 py-2.5 rounded-full bg-white/10 backdrop-blur-md border border-white/80 text-white text-sm sm:text-base md:text-lg font-bold tracking-wider uppercase mb-6 shadow-sm">
+            <span class="w-3.5 h-3.5 rounded-full bg-white"></span>
             Kwara State College of Health Technology
         </div>
 
         <!-- Hero Headline -->
-        <h1 class="hero-drop-2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white uppercase tracking-tight mb-6 drop-shadow-md leading-tight">
+        <h1 class="hero-drop-2 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-black text-white uppercase tracking-tight mb-6 leading-tight"
+            style="text-shadow: 0 2px 8px rgba(0,0,0,0.4);">
             Explore Our Library
         </h1>
 
-        <!-- Hero Subtitle -->
-        <p class="hero-drop-3 mt-4 text-lg sm:text-[22px] md:text-[27px] text-white font-medium max-w-4xl mx-auto leading-relaxed drop-shadow-sm">
+        <!-- Hero Subtitle (+5% size increase, natural text shadow) -->
+        <p class="hero-drop-3 mt-4 text-xl sm:text-[23px] md:text-[28px] text-white font-medium max-w-4xl mx-auto leading-relaxed"
+           style="text-shadow: 0 1px 5px rgba(0,0,0,0.4);">
             Welcome to the Kwara State College of Health Technology Library. Discover academic resources, research materials, and our extensive catalog.
         </p>
 
