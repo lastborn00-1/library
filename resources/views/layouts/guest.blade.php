@@ -7,9 +7,13 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
+        <!-- Favicon (School Logo) -->
+        <link rel="icon" type="image/jpeg" href="{{ asset('favicon.jpeg') }}">
+        <link rel="shortcut icon" href="{{ asset('favicon.jpeg') }}">
+        <link rel="apple-touch-icon" href="{{ asset('favicon.jpeg') }}">
+
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.bunny.net">
-        <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
+        <link href="{{ asset('vendor/fonts/figtree.css') }}" rel="stylesheet" />
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])

@@ -59,4 +59,22 @@ class SettingController extends Controller
 
         return redirect()->route('settings.index')->with('success', 'Settings updated successfully.');
     }
+
+    public function toggleRegistration(Request $request)
+    {
+        if (Auth::user()->role !== 'admin') {
+            abort(403, 'Unauthorized action.');
+        }
+
+        $enabled = $request->input('student_registration_enabled') == '1' ? '1' : '0';
+
+        Setting::updateOrCreate(
+            ['key' => 'student_registration_enabled'],
+            ['value' => $enabled]
+        );
+
+        $statusText = $enabled === '1' ? 'enabled (OPEN)' : 'disabled (CLOSED)';
+
+        return redirect()->route('settings.index')->with('success', "Student self-registration is now {$statusText}.");
+    }
 }

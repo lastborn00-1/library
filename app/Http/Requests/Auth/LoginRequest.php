@@ -42,10 +42,37 @@ class LoginRequest extends FormRequest
     {
         $this->ensureIsNotRateLimited();
 
-        $login = $this->string('login')->trim();
-        $fieldType = filter_var($login, FILTER_VALIDATE_EMAIL) ? 'email' : 'username';
+        $loginInput = $this->string('login')->trim()->value();
+        $passwordInput = $this->string('password')->value();
+        $remember = $this->boolean('remember');
 
-        if (! Auth::attempt([$fieldType => $login, 'password' => $this->password], $this->boolean('remember'))) {
+        // Find user case-insensitively by username or email
+        $user = \App\Models\User::whereRaw('LOWER(username) = ?', [strtolower($loginInput)])
+                    ->orWhereRaw('LOWER(email) = ?', [strtolower($loginInput)])
+                    ->first();
+
+        $authenticated = false;
+
+        if ($user) {
+            // Password variations to accept case-insensitively (e.g. "abdulrasheed", "Abdulrasheed", "ABDULRASHEED")
+            $passwordVariations = array_unique([
+                $passwordInput,
+                strtolower($passwordInput),
+                strtoupper($passwordInput),
+                ucfirst(strtolower($passwordInput)),
+                ucwords(strtolower($passwordInput)),
+            ]);
+
+            foreach ($passwordVariations as $passVariant) {
+                if (\Illuminate\Support\Facades\Hash::check($passVariant, $user->password)) {
+                    Auth::login($user, $remember);
+                    $authenticated = true;
+                    break;
+                }
+            }
+        }
+
+        if (! $authenticated) {
             RateLimiter::hit($this->throttleKey());
 
             throw ValidationException::withMessages([

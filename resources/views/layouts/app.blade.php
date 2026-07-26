@@ -13,16 +13,14 @@
         <link rel="apple-touch-icon" href="{{ asset('favicon.jpeg') }}">
 
         <!-- Fonts -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+        <link href="{{ asset('vendor/fonts/inter.css') }}" rel="stylesheet">
 
         <!-- Scripts -->
         @vite(['resources/css/app.css', 'resources/js/app.js'])
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+        <script src="{{ asset('vendor/js/pdf.min.js') }}"></script>
         <script>
             const { pdfjsLib } = globalThis;
-            pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+            pdfjsLib.GlobalWorkerOptions.workerSrc = '{{ asset('vendor/js/pdf.worker.min.js') }}';
         </script>
         <style>
             body { font-family: 'Inter', sans-serif; }

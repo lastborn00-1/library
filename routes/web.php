@@ -33,11 +33,20 @@ Route::get('/e-resources', function () {
     $resources = \App\Models\EResource::orderBy('category')->orderBy('order')->get();
     return view('pages.e-resources', compact('resources'));
 });
+
+// Public Departmental Materials Downloads
+Route::get('/e-resources/downloads', [App\Http\Controllers\DepartmentalMaterialController::class, 'index'])->name('departmental-materials.index');
+Route::get('/e-resources/downloads/department/{department}', [App\Http\Controllers\DepartmentalMaterialController::class, 'showDepartment'])->name('departmental-materials.show');
+Route::get('/e-resources/downloads/material/{material}/view', [App\Http\Controllers\DepartmentalMaterialController::class, 'viewOnline'])->name('departmental-materials.view');
+Route::get('/e-resources/downloads/material/{material}/download', [App\Http\Controllers\DepartmentalMaterialController::class, 'download'])->name('departmental-materials.download');
 Route::get('/gallery', function () {
     $images = \App\Models\GalleryImage::orderBy('order')->latest()->get();
     return view('pages.gallery', compact('images'));
 });
 Route::get('/staff', [App\Http\Controllers\StaffController::class, 'index']);
+Route::get('/past-questions', [App\Http\Controllers\PastQuestionController::class, 'publicIndex'])->name('past-questions.index');
+Route::get('/past-questions/{pastQuestion}/view', [App\Http\Controllers\PastQuestionController::class, 'viewOnline'])->name('past-questions.view');
+Route::get('/past-questions/{pastQuestion}/download', [App\Http\Controllers\PastQuestionController::class, 'download'])->name('past-questions.download');
 
 // Public Repository Routes
 Route::prefix('repository')->name('repository.')->group(function () {
@@ -60,6 +69,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     // Settings & Admin
     Route::get('/admin/settings', [App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');
     Route::post('/admin/settings', [App\Http\Controllers\SettingController::class, 'update'])->name('settings.update');
+    Route::post('/admin/settings/toggle-registration', [App\Http\Controllers\SettingController::class, 'toggleRegistration'])->name('settings.toggle-registration');
+
+    // Admin Departmental Materials Management
+    Route::get('/admin/settings/departmental-materials', [App\Http\Controllers\DepartmentalMaterialController::class, 'adminIndex'])->name('settings.departmental-materials.index');
+    Route::post('/admin/settings/departmental-materials', [App\Http\Controllers\DepartmentalMaterialController::class, 'store'])->name('settings.departmental-materials.store');
+    Route::get('/admin/settings/departmental-materials/{material}/edit', [App\Http\Controllers\DepartmentalMaterialController::class, 'edit'])->name('settings.departmental-materials.edit');
+    Route::put('/admin/settings/departmental-materials/{material}', [App\Http\Controllers\DepartmentalMaterialController::class, 'update'])->name('settings.departmental-materials.update');
+    Route::delete('/admin/settings/departmental-materials/{material}', [App\Http\Controllers\DepartmentalMaterialController::class, 'destroy'])->name('settings.departmental-materials.destroy');
     
     // Staff Management (Admin)
     Route::middleware('role:admin')->prefix('admin/settings/staff')->name('settings.staff.')->group(function() {
@@ -86,6 +103,22 @@ Route::middleware(['auth', 'verified'])->group(function () {
         Route::get('/{eresource}/edit', [App\Http\Controllers\EResourceController::class, 'edit'])->name('edit');
         Route::put('/{eresource}', [App\Http\Controllers\EResourceController::class, 'update'])->name('update');
         Route::delete('/{eresource}', [App\Http\Controllers\EResourceController::class, 'destroy'])->name('destroy');
+    });
+
+    // Subscriptions Management (Admin)
+    Route::middleware('role:admin')->prefix('admin/settings/subscriptions')->name('settings.subscriptions.')->group(function() {
+        Route::get('/', [App\Http\Controllers\SubscribedResourceController::class, 'index'])->name('index');
+        Route::post('/', [App\Http\Controllers\SubscribedResourceController::class, 'store'])->name('store');
+        Route::delete('/{subscription}', [App\Http\Controllers\SubscribedResourceController::class, 'destroy'])->name('destroy');
+    });
+
+    // Past Questions Management (Admin)
+    Route::middleware('role:admin')->prefix('admin/settings/past-questions')->name('settings.past-questions.')->group(function() {
+        Route::get('/', [App\Http\Controllers\PastQuestionController::class, 'adminIndex'])->name('index');
+        Route::post('/', [App\Http\Controllers\PastQuestionController::class, 'store'])->name('store');
+        Route::get('/{pastQuestion}/edit', [App\Http\Controllers\PastQuestionController::class, 'edit'])->name('edit');
+        Route::put('/{pastQuestion}', [App\Http\Controllers\PastQuestionController::class, 'update'])->name('update');
+        Route::delete('/{pastQuestion}', [App\Http\Controllers\PastQuestionController::class, 'destroy'])->name('destroy');
     });
 
     // Shared Routes

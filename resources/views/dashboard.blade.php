@@ -13,6 +13,25 @@
     <div class="py-10">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8 space-y-8">
             
+            @if(Auth::user()->role === 'student')
+                <div class="bg-indigo-50 border border-indigo-100 rounded-2xl p-6 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 shadow-sm">
+                    <div class="flex items-center gap-4">
+                        <div class="w-12 h-12 bg-indigo-600 text-white rounded-xl flex items-center justify-center font-bold text-xl flex-shrink-0">
+                            🔒
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-indigo-950">Account Security & Password</h3>
+                            <p class="text-sm text-indigo-700 mt-0.5">
+                                Your default password is set to your <strong>First Name</strong>. You can change your password anytime to keep your account secure.
+                            </p>
+                        </div>
+                    </div>
+                    <a href="{{ route('profile.edit') }}" class="px-5 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white text-sm font-bold rounded-xl transition shadow flex-shrink-0">
+                        Change Password
+                    </a>
+                </div>
+            @endif
+
             @if(isset($pendingRequests) && $pendingRequests > 0)
                 <div class="bg-rose-50 border border-rose-200 rounded-2xl p-4 flex items-center justify-between shadow-sm">
                     <div class="flex items-center gap-3">

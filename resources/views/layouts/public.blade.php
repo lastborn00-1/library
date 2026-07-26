@@ -5,14 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name', 'KWCHT Library') }}</title>
 
+    <!-- Favicon (School Logo) -->
+    <link rel="icon" type="image/jpeg" href="{{ asset('favicon.jpeg') }}">
+    <link rel="shortcut icon" href="{{ asset('favicon.jpeg') }}">
+    <link rel="apple-touch-icon" href="{{ asset('favicon.jpeg') }}">
+
     <!-- Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="{{ asset('vendor/fonts/inter.css') }}" rel="stylesheet">
 
     <!-- Styles -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
-    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <script defer src="{{ asset('vendor/js/alpine.min.js') }}"></script>
 
     <style>
         body { font-family: 'Inter', sans-serif; }
@@ -114,7 +117,91 @@
                         </div>
                     </div>
 
-                    <a href="{{ url('/e-resources') }}" class="px-3 py-2 rounded-md text-sm font-semibold {{ request()->is('e-resources') ? 'text-indigo-600 bg-indigo-50' : 'text-slate-700 hover:text-indigo-600 hover:bg-slate-50' }}">E-Resources</a>
+                    <!-- E-Resources Multi-level Dropdown -->
+                    <div class="relative" x-data="{ open: false, subOpen: false, newsOpen: false }" @click.outside="open = false; subOpen = false; newsOpen = false" @mouseleave="open = false; subOpen = false; newsOpen = false">
+                        <button @mouseover="open = true" @click="open = !open"
+                            class="nav-dropdown-btn flex items-center px-3 py-2 rounded-md text-sm font-semibold {{ request()->is('e-resources*') || request()->is('past-questions*') ? 'text-indigo-600 bg-indigo-50' : 'text-slate-700 hover:text-indigo-600 hover:bg-slate-50' }} transition">
+                            E-Resources
+                            <svg class="ml-1 h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
+                        </button>
+                        
+                        <div x-show="open" x-transition class="absolute left-0 top-full w-64 rounded-xl shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-[9999]" style="display: none;">
+                            <div class="py-2" role="menu">
+                                <!-- 1. Open Source -->
+                                <a href="{{ url('/e-resources') }}" class="nav-dropdown-item block px-4 py-2.5 text-sm text-slate-700 font-medium">
+                                    Open Source E-Resources
+                                </a>
+
+                                <!-- 2. Subscription (Sub-dropdown) -->
+                                <div class="relative" @mouseleave="subOpen = false">
+                                    <button @mouseover="subOpen = true" @click="subOpen = !subOpen"
+                                            class="nav-dropdown-btn w-full flex items-center justify-between px-4 py-2.5 text-sm text-slate-700 font-medium text-left">
+                                        <div class="flex items-center gap-1.5">
+                                            <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                                            <span>Subscription</span>
+                                        </div>
+                                    </button>
+                                    <div x-show="subOpen" x-transition class="absolute rounded-xl shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-[9999]" style="right: 100%; top: 0; width: 16rem; margin-right: 0.25rem; display: none;">
+                                        <div class="py-2">
+                                            @php
+                                                try {
+                                                    $subscribedList = \App\Models\SubscribedResource::orderBy('order')->get();
+                                                } catch (\Throwable $e) {
+                                                    $subscribedList = collect();
+                                                }
+                                            @endphp
+                                            @forelse($subscribedList as $subItem)
+                                                <a href="{{ $subItem->url }}" target="_blank" class="nav-dropdown-item block px-4 py-2 text-sm text-slate-700 font-medium">
+                                                    {{ $subItem->title }} &rarr;
+                                                </a>
+                                            @empty
+                                                <span class="block px-4 py-2 text-xs text-slate-400">No subscriptions listed yet</span>
+                                            @endforelse
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 3. Departmental Downloads -->
+                                <a href="{{ route('departmental-materials.index') }}" class="nav-dropdown-item block px-4 py-2.5 text-sm text-slate-700 font-medium border-t border-slate-100">
+                                    Departmental Downloads
+                                </a>
+
+                                <!-- 4. Nigeria Newspapers (Sub-dropdown) -->
+                                <div class="relative border-t border-slate-100" @mouseleave="newsOpen = false">
+                                    <button @mouseover="newsOpen = true" @click="newsOpen = !newsOpen"
+                                            class="nav-dropdown-btn w-full flex items-center justify-between px-4 py-2.5 text-sm text-slate-700 font-medium text-left">
+                                        <div class="flex items-center gap-1.5">
+                                            <svg class="h-4 w-4 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                                            <span>Nigeria Newspapers</span>
+                                        </div>
+                                    </button>
+                                    <div x-show="newsOpen" x-transition class="absolute max-h-80 overflow-y-auto rounded-xl shadow-xl bg-white ring-1 ring-black ring-opacity-5 z-[9999]" style="right: 100%; top: 0; width: 14rem; margin-right: 0.25rem; display: none;">
+                                        <div class="py-2">
+                                            <a href="https://punchng.com" target="_blank" class="nav-dropdown-item block px-4 py-2 text-sm text-slate-700 font-medium">Punch Newspaper</a>
+                                            <a href="https://sunnewsonline.com" target="_blank" class="nav-dropdown-item block px-4 py-2 text-sm text-slate-700 font-medium border-t border-slate-50">The Sun</a>
+                                            <a href="https://tribuneonlineng.com" target="_blank" class="nav-dropdown-item block px-4 py-2 text-sm text-slate-700 font-medium border-t border-slate-50">Nigerian Tribune</a>
+                                            <a href="https://guardian.ng" target="_blank" class="nav-dropdown-item block px-4 py-2 text-sm text-slate-700 font-medium border-t border-slate-50">The Guardian</a>
+                                            <a href="https://www.vanguardngr.com" target="_blank" class="nav-dropdown-item block px-4 py-2 text-sm text-slate-700 font-medium border-t border-slate-50">Vanguard</a>
+                                            <a href="https://independent.ng" target="_blank" class="nav-dropdown-item block px-4 py-2 text-sm text-slate-700 font-medium border-t border-slate-50">Daily Independent</a>
+                                            <a href="https://www.premiumtimesng.com" target="_blank" class="nav-dropdown-item block px-4 py-2 text-sm text-slate-700 font-medium border-t border-slate-50">Premium Times</a>
+                                            <a href="https://dailytrust.com" target="_blank" class="nav-dropdown-item block px-4 py-2 text-sm text-slate-700 font-medium border-t border-slate-50">Daily Trust</a>
+                                            <a href="https://blueprint.ng" target="_blank" class="nav-dropdown-item block px-4 py-2 text-sm text-slate-700 font-medium border-t border-slate-50">Blueprint</a>
+                                            <a href="https://thenationonlineng.net" target="_blank" class="nav-dropdown-item block px-4 py-2 text-sm text-slate-700 font-medium border-t border-slate-50">The Nation</a>
+                                            <a href="https://www.latestnigeriannews.com" target="_blank" class="nav-dropdown-item block px-4 py-2 text-sm text-slate-700 font-medium border-t border-slate-50">Latest Nigerian News</a>
+                                            <a href="https://leadership.ng" target="_blank" class="nav-dropdown-item block px-4 py-2 text-sm text-slate-700 font-medium border-t border-slate-50">Leadership</a>
+                                            <a href="https://www.thisdaylive.com" target="_blank" class="nav-dropdown-item block px-4 py-2 text-sm text-slate-700 font-medium border-t border-slate-50">ThisDay</a>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- 5. Past Examination Questions -->
+                                <a href="{{ route('past-questions.index') }}" class="nav-dropdown-item block px-4 py-2.5 text-sm text-slate-700 font-medium border-t border-slate-100">
+                                    Past Examination Questions
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
                     <a href="{{ url('/gallery') }}" class="px-3 py-2 rounded-md text-sm font-semibold {{ request()->is('gallery') ? 'text-indigo-600 bg-indigo-50' : 'text-slate-700 hover:text-indigo-600 hover:bg-slate-50' }}">Gallery</a>
                     <a href="https://drillbitglobal.com" target="_blank" class="px-3 py-2 rounded-md text-sm font-semibold text-slate-700 hover:text-indigo-600 hover:bg-slate-50">Plagiarism Checker</a>
                 </nav>
@@ -147,7 +234,8 @@
                 <a href="{{ url('/staff') }}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-900 hover:bg-slate-50">Staff</a>
                 <a href="{{ url('/login') }}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-900 hover:bg-slate-50">Catalog</a>
                 <a href="{{ route('repository.home') }}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-900 hover:bg-slate-50">Institution Repository</a>
-                <a href="{{ url('/e-resources') }}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-900 hover:bg-slate-50">E-Resources</a>
+                <a href="{{ url('/e-resources') }}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-900 hover:bg-slate-50">Open Source E-Resources</a>
+                <a href="{{ route('past-questions.index') }}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-900 hover:bg-slate-50">Past Examination Questions</a>
                 <a href="{{ url('/gallery') }}" class="block px-3 py-2 rounded-md text-base font-medium text-slate-900 hover:bg-slate-50">Gallery</a>
                 <a href="https://drillbitglobal.com" class="block px-3 py-2 rounded-md text-base font-medium text-slate-900 hover:bg-slate-50">Plagiarism Checker</a>
                 @auth
@@ -187,8 +275,13 @@
                     </ul>
                 </div>
             </div>
-            <div class="border-t border-slate-800 mt-8 pt-8 text-sm text-center">
-                &copy; {{ date('Y') }} {{ config('app.name') }}. Built with excellence.
+            <div class="border-t border-slate-800 mt-8 pt-8 text-sm flex flex-col md:flex-row items-center justify-between gap-4">
+                <div>
+                    Powered by <a href="https://loopvoratech.web.app" target="_blank" rel="noopener noreferrer" class="text-indigo-400 font-bold hover:underline">Loopvora Technologies</a>
+                </div>
+                <div class="text-slate-400">
+                    &copy; {{ date('Y') }} {{ config('app.name') }}. All Rights Reserved.
+                </div>
             </div>
         </div>
     </footer>

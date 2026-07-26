@@ -26,6 +26,14 @@ class Department extends Model
     }
 
     /**
+     * Get all e-resource materials belonging to this department.
+     */
+    public function materials()
+    {
+        return $this->hasMany(DepartmentalMaterial::class);
+    }
+
+    /**
      * Scope: Only active departments.
      */
     public function scopeActive($query)

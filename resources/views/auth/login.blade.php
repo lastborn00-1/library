@@ -1,4 +1,12 @@
 <x-guest-layout>
+    <!-- Back to Home -->
+    <div class="mb-6 flex justify-start">
+        <a href="{{ url('/') }}" class="inline-flex items-center gap-2 px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 text-xs font-bold rounded-lg transition">
+            <svg class="w-4 h-4 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+            Back to Home
+        </a>
+    </div>
+
     <!-- Header -->
     <div class="text-center mb-8">
         <h2 class="text-2xl font-bold text-slate-900">Welcome to KWCHT E-Library</h2>
@@ -64,11 +72,19 @@
             <div class="relative flex justify-center text-xs"><span class="px-3 bg-white text-slate-400">New student?</span></div>
         </div>
 
-        <!-- Create Account -->
-        <a href="{{ route('student.register') }}"
-           class="w-full flex justify-center py-2.5 px-4 border-2 border-indigo-200 rounded-lg text-sm font-bold text-indigo-600 hover:bg-indigo-50 hover:border-indigo-400 transition">
-            Create a Library Account
-        </a>
-        
+        <!-- Create Account / Closed notice -->
+        @php
+            $regEnabled = \App\Models\Setting::where('key', 'student_registration_enabled')->value('value') !== '0';
+        @endphp
+        @if($regEnabled)
+            <a href="{{ route('student.register') }}"
+               class="w-full flex justify-center py-2.5 px-4 border-2 border-indigo-200 rounded-lg text-sm font-bold text-indigo-600 hover:bg-indigo-50 hover:border-indigo-400 transition">
+                Create a Library Account
+            </a>
+        @else
+            <div class="p-3 bg-slate-50 border border-slate-200 rounded-lg text-center text-xs text-slate-500 font-medium">
+                Student online self-registration is currently closed.
+            </div>
+        @endif
     </form>
 </x-guest-layout>
