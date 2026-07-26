@@ -1,17 +1,51 @@
 @extends('layouts.public')
 
 @section('content')
-<div class="relative bg-slate-900" style="z-index: 1; isolation: auto;">
-    <!-- Background Image -->
-    <div class="absolute inset-0 bg-cover bg-center opacity-30" style="background-image: url('{{ asset('background.jpg') }}'); z-index: 0;"></div>
+<div class="relative bg-slate-900 overflow-hidden min-h-[80vh] flex items-center justify-center" 
+     style="z-index: 1; isolation: auto;"
+     x-data="{
+        active: 0,
+        images: [
+            '{{ asset('background.jpg') }}',
+            '{{ asset('bg1.PNG') }}',
+            '{{ asset('bg2.PNG') }}',
+            '{{ asset('bg3.PNG') }}',
+            '{{ asset('bg4.PNG') }}'
+        ],
+        init() {
+            setInterval(() => {
+                this.active = (this.active + 1) % this.images.length;
+            }, 5000);
+        }
+     }">
+    <!-- Background Slideshow Images -->
+    <template x-for="(img, idx) in images" :key="idx">
+        <div class="absolute inset-0 bg-cover bg-center transition-opacity duration-1000 ease-in-out"
+             :style="'background-image: url(' + img + '); z-index: 0;'"
+             :class="active === idx ? 'opacity-40 scale-100' : 'opacity-0 scale-105 pointer-events-none'"></div>
+    </template>
     
-    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32 text-center">
-        <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 relative z-10">
+    <!-- Dark Gradient Overlay for optimal contrast -->
+    <div class="absolute inset-0 bg-gradient-to-b from-slate-900/60 via-slate-900/40 to-slate-900/70" style="z-index: 1;"></div>
+    
+    <!-- Content Container -->
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center z-10">
+        <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight mb-6 drop-shadow-lg">
             Explore Our Library
         </h1>
-        <p class="mt-4 text-xl md:text-2xl text-slate-200 font-medium max-w-3xl mx-auto drop-shadow-md">
+        <p class="mt-4 text-xl md:text-2xl text-slate-100 font-medium max-w-3xl mx-auto drop-shadow-md leading-relaxed">
             Welcome to the Kwara State College of Health Technology Library. Discover academic resources, research materials, and our extensive catalog.
         </p>
+
+        <!-- Slide Indicators -->
+        <div class="mt-10 flex justify-center items-center space-x-3">
+            <template x-for="(img, idx) in images" :key="'dot-' + idx">
+                <button @click="active = idx" 
+                        class="h-3 rounded-full transition-all duration-300 focus:outline-none"
+                        :class="active === idx ? 'w-8 bg-emerald-500' : 'w-3 bg-white/50 hover:bg-white/80'"
+                        :aria-label="'Go to slide ' + (idx + 1)"></button>
+            </template>
+        </div>
     </div>
 </div>
 
