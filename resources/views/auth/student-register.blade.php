@@ -7,7 +7,7 @@
 
 @section('content')
 <div class="py-12 md:py-16 bg-slate-50 flex-grow flex items-center justify-center relative" style="background-image: url('{{ asset('loginimage.png') }}'); background-size: cover; background-position: center;">
-    <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-xs"></div>
+    <div class="absolute inset-0 bg-black/20"></div>
 
     <div class="relative z-10 w-full max-w-lg mx-auto px-4 sm:px-6">
         <div class="bg-white/95 backdrop-blur-md p-8 sm:p-10 rounded-2xl shadow-2xl border border-slate-100">
