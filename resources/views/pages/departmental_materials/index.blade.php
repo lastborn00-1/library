@@ -18,7 +18,7 @@
             </div>
             <div>
                 <p class="text-slate-700 text-sm md:text-base font-semibold leading-relaxed">
-                    Welcome to the KWCHT Departmental eLibrary Resources Portal. Select your academic department below to access and download official lecture notes, e-books, course materials, and study resources.
+                    Welcome to the KWCHT Departmental eLibrary Resources. Select your academic department below to access and download official lecture notes, e-books, course materials, and study resources.
                 </p>
             </div>
         </div>

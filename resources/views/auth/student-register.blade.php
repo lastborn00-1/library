@@ -14,7 +14,7 @@
             <!-- School Logo -->
             <div class="flex flex-col items-center mb-6">
                 <a href="{{ url('/') }}">
-                    <x-application-logo class="h-20 w-auto rounded-xl shadow-md drop-shadow-md" />
+                    <x-application-logo class="h-20 w-auto" />
                 </a>
             </div>
 
